@@ -15,7 +15,7 @@ def configure():
     flags.DEFINE_float('keep_prob', 0.9, 'dropout probability')
     flags.DEFINE_boolean('use_gpu', False, 'use GPU or not')
     # data
-    flags.DEFINE_string('data_dir', '/Users/Juhn/Desktop/Research Assistant/Research3/dtn_2d/dataset/', 'Name of data directory')
+    flags.DEFINE_string('data_dir', '/Users/Juhn/Desktop/Research Assistant/Research3/dtn_2d/', 'Name of data directory')
     flags.DEFINE_string('train_data', 'training.h5', 'Training data')
     flags.DEFINE_string('valid_data', 'validation.h5', 'Validation data')
     flags.DEFINE_string('test_data', 'testing.h5', 'Testing data')
