@@ -44,11 +44,9 @@ transformer(U,U_local,Column_controlP_number,Row_controlP_number,out_size)
 
 ### Parameters
 
-U: float
-
-   The input of spatial transformer.
-   
-U_local: float\\
+U: float＜/br＞
+   The input of spatial transformer.＜/br＞   
+U_local: float＜/br＞
    The input of localization networks.\\
 Column_controlP_number: int\\
    The number of columns of the fiducial points.\\
