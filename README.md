@@ -52,8 +52,8 @@ Column_controlP_number: int
     The number of columns of the fiducial points.  
 Row_controlP_number: int  
     The number of rows of the fiducial points.  
-out_size: int
-    The size of output feature maps after spatial transformer. 
+out_size: int  
+  The size of output feature maps after spatial transformer. 
 
 
 
