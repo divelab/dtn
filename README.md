@@ -44,6 +44,7 @@ fourth rows are the segmentation results of U-Net and DTN, respectively.
 
 ```
 Parameters  
+
 * U: the input of spatial transformer.  
 * U_local: the input of localization networks.  
 ```
@@ -52,6 +53,7 @@ Parameters
 
 ```
 Parameters  
+
 * U: the input of spatial deocder transformer.  
 * U_org: the original feature maps to fill the missing pixels.  
 * T: the transformation shared with TPS_transformer.  
