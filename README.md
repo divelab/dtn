@@ -22,24 +22,19 @@ Ji},
 
 
 ## Experimental results:
+We perform our experiment on two datasets to compare the baseline U-Net model and the proposed DTN model.
+
 1. PASCAL dataset
 
 ![image](https://github.com/divelab/dtn/blob/master/results/PASCALresult.png)
 Sample segmentation results on the PASCAL 2012 segmentation data set. The first and
 second rows are the original images and the corresponding ground truth, respectively. The third and
-fourth rows are the segmentation results of baseline U-Net and DTN, respectively.
+fourth rows are the segmentation results of U-Net and DTN, respectively.
 
 2. SNEMI3D dataset
 
 ![image](https://github.com/divelab/dtn/blob/master/results/SNEMI3Dresult.PNG)
 
-
-
-## Datasets:
-
-Our experiments are based on [cifar 10](https://www.cs.toronto.edu/~kriz/cifar.html) and [cropped celebA datasets](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html). We provide data reader for those two datasets. For celebA dataset, please convert it to h5 file first then call the data reader.
-
-You can use other datasets such as [The Street View House Numbers (SVHN) Dataset](http://ufldl.stanford.edu/housenumbers/) or [LSUN Dataset](http://lsun.cs.princeton.edu/2016/) as well. Just write a simple data reader file. 
 
 ## How to run it
 
