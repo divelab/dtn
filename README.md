@@ -36,13 +36,24 @@ fourth rows are the segmentation results of U-Net and DTN, respectively.
 ![image](https://github.com/divelab/dtn/blob/master/results/SNEMI3Dresult.PNG)
 
 
-## How to run it
+## How to use
 
-1. Clone or download this repository to your working directory.
-2. Get the datasets ready.
-3. Set related arguments in main.py. There are two models: vanilla VAE and our Spatial VAE. Set "model_name" as 'vanilla' to call tranditional VAE and set as 'low_rank' to call our Spatial VAE.
-4. Call ``` python main.py ``` or  ``` python main.py --action=train ``` to train the model.
-5. If you wish to use "parzen window" to evaluate the model, set a checkpoint in arguments for the model to reload and then call ``` python main.py --action=test```.
+![image](https://github.com/divelab/dtn/blob/master/results/architecture.PNG)
+
+transformer(U,U_local,Column_controlP_number,Row_controlP_number,out_size)
+
+### Parameters
+
+U: float
+   The input of spatial transformer.
+U_local: float
+   The input of localization networks.
+Column_controlP_number: int
+   The number of columns of the fiducial points.
+Row_controlP_number: int
+   The number of rows of the fiducial points.
+   
+
 
 
 
