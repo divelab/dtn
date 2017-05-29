@@ -42,18 +42,18 @@ fourth rows are the segmentation results of U-Net and DTN, respectively.
 
 ### transformer(U,U_local,Column_controlP_number,Row_controlP_number,out_size)
 
-U: the input of spatial transformer.  
-U_local: the input of localization networks.  
-Column_controlP_number: the number of columns of the fiducial points.  
-Row_controlP_number: the number of rows of the fiducial points.  
-out_size: the size of output feature maps after spatial transformer. 
+*U: the input of spatial transformer.  
+*U_local: the input of localization networks.  
+*Column_controlP_number: the number of columns of the fiducial points.  
+*Row_controlP_number: the number of rows of the fiducial points.  
+*out_size: the size of output feature maps after spatial transformer. 
 
 ### inverse_transformer(U,Column_controlP_number,Row_controlP_number,out_size)
 
-U: the input of spatial transformer.  
-Column_controlP_number: the number of columns of the fiducial points.  
-Row_controlP_number: the number of rows of the fiducial points.  
-out_size: the size of output feature maps after spatial decoder transformer.
+*U: the input of spatial transformer.  
+*Column_controlP_number: the number of columns of the fiducial points.  
+*Row_controlP_number: the number of rows of the fiducial points.  
+*out_size: the size of output feature maps after spatial decoder transformer.
 
 
 
