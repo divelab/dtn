@@ -6,7 +6,7 @@ This is the tensorflow implementation of our recent work, "Dense Transformer Net
 
 In this work, we propose Dense Transformer Networks to apply spatial transformation to semantic prediction tasks. 
 Dense Transformer Networks can extract features based on irregular areas, whose shapes and sizes are based on data.
-In the meanwhile, Dense Transformer Networks provide a method that efficiently restore spatial information.
+In the meantime, Dense Transformer Networks provide a method that efficiently restore spatial information.
 
 ```
 @article{li2017dtn,
