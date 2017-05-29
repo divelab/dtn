@@ -38,21 +38,22 @@ fourth rows are the segmentation results of U-Net and DTN, respectively.
 
 ## How to use
 
-![image](https://github.com/divelab/dtn/blob/master/results/DTN.pdf)
+![image](https://github.com/divelab/dtn/blob/master/results/architecture.PNG)
 
 transformer(U,U_local,Column_controlP_number,Row_controlP_number,out_size)
 
 ### Parameters
 
 U: float  
-   The input of spatial transformer.  
+    The input of spatial transformer.  
 U_local: float  
-   The input of localization networks.  
+    The input of localization networks.  
 Column_controlP_number: int  
-   The number of columns of the fiducial points.  
+    The number of columns of the fiducial points.  
 Row_controlP_number: int  
-   The number of rows of the fiducial points.  
-   
+    The number of rows of the fiducial points.  
+out_size: int
+    The size of output feature maps after spatial transformer. 
 
 
 
