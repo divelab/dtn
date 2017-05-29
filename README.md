@@ -8,6 +8,8 @@ In this work, we propose Dense Transformer Networks to apply spatial transformat
 Dense Transformer Networks can extract features based on irregular areas, whose shapes and sizes are based on data.
 In the meantime, Dense Transformer Networks provide a method that efficiently restore spatial information.
 
+## Citation
+If using this code, please cite our paper.
 ```
 @article{li2017dtn,
   title={Dense Transformer Networks},
