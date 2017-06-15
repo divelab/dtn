@@ -1,21 +1,29 @@
+#python 3.0
+#coding:UTF-8
+'''
+@author Yongjun Chen 
+'''
+#2D version of Dense Transformer Networks
 import tensorflow as tf
 import numpy as np
 from ops import *
 
 class DSN_transformer(object):
     def __init__(self,input_shape,control_points_ratio):
-        self.initial = np.array([[-5., -0.4, 0.4, 5., -5., -0.4, 0.4, 5., -5., -0.4, 0.4, 5., -5., -0.4, 0.4, 5.],[-5., -5., -5., -5., -0.4, -0.4, -0.4, -0.4, 0.4, 0.4, 0.4, 0.4, 5., 5., 5.,5.]])
         self.num_batch = input_shape[0]
         self.height = input_shape[1]
         self.width = input_shape[2]
         self.num_channels = input_shape[3]
-
         self.out_height = self.height
         self.out_width = self.width
         self.Column_controlP_number = int(input_shape[1] / \
                         (control_points_ratio))
         self.Row_controlP_number = int(input_shape[2] / \
                         (control_points_ratio))
+        init_x = np.linspace(-5,5,self.Column_controlP_number)
+        init_y = np.linspace(-5,5,self.Row_controlP_number)
+        x_s,y_s = np.meshgrid(init_x, init_y)       
+        self.initial = np.array([x_s,y_s])
 
     def _local_Networks(self,input_dim,x):
         with tf.variable_scope('_local_Networks'):
