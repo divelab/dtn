@@ -13,6 +13,7 @@ class DenseTransformerNetwork(object):
         self.conf = conf
         self.conv_size = (3, 3)
         self.pool_size = (2, 2)
+        # Operation in the list is trying to get the input shape of Dense transformer networks.
         self.dtn_input_shape = [self.conf.batch, int(self.conf.height/(2**self.conf.dtn_location)),
             int(self.conf.width/(2**self.conf.dtn_location)),
             self.conf.start_channel_num*(2**self.conf.dtn_location)]
