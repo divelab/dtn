@@ -13,11 +13,11 @@ class DenseTransformerNetwork(object):
         self.conf = conf
         self.conv_size = (3, 3)
         self.pool_size = (2, 2)
-        self.DTN_input_shape = [self.conf.batch, int(self.conf.height/(2**self.conf.dtn_location)),
+        self.dtn_input_shape = [self.conf.batch, int(self.conf.height/(2**self.conf.dtn_location)),
             int(self.conf.width/(2**self.conf.dtn_location)),
             self.conf.start_channel_num*(2**self.conf.dtn_location)]
         if self.conf.add_dtn == True:
-            self.transform = DSN_transformer(self.DTN_input_shape,self.conf.control_points_ratio)
+            self.transform = DSN_transformer(self.dtn_input_shape,self.conf.control_points_ratio)
             self.insertdtn = self.conf.dtn_location
         else:
             self.insertdtn = -1
