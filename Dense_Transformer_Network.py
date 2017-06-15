@@ -3,27 +3,24 @@ import numpy as np
 from ops import *
 
 class DSN_transformer(object):
-    def __init__(self,U,U_local,Column_controlP_number,Row_controlP_number):
+    def __init__(self,input_shape,control_points_ratio):
         self.initial = np.array([[-5., -0.4, 0.4, 5., -5., -0.4, 0.4, 5., -5., -0.4, 0.4, 5., -5., -0.4, 0.4, 5.],[-5., -5., -5., -5., -0.4, -0.4, -0.4, -0.4, 0.4, 0.4, 0.4, 0.4, 5., 5., 5.,5.]])
-        self.local_num_batch = U_local.shape[0].value
-        self.local_height = U_local.shape[1].value
-        self.local_width = U_local.shape[2].value
-        self.local_num_channels = U_local.shape[3].value
+        self.num_batch = input_shape[0]
+        self.height = input_shape[1]
+        self.width = input_shape[2]
+        self.num_channels = input_shape[3]
 
-        self.num_batch = U.shape[0].value
-        self.height = U.shape[1].value
-        self.width = U.shape[2].value
-        self.num_channels = U.shape[3].value
-        
         self.out_height = self.height
         self.out_width = self.width
-        self.Column_controlP_number = Column_controlP_number
-        self.Row_controlP_number = Row_controlP_number
+        self.Column_controlP_number = int(input_shape[1] / \
+                        (control_points_ratio))
+        self.Row_controlP_number = int(input_shape[2] / \
+                        (control_points_ratio))
 
     def _local_Networks(self,input_dim,x):
         with tf.variable_scope('_local_Networks'):
-            x = tf.reshape(x,[-1,self.local_height*self.local_width*self.local_num_channels])
-            W_fc_loc1 = weight_variable([self.local_height*self.local_width*self.local_num_channels, 20])
+            x = tf.reshape(x,[-1,self.height*self.width*self.num_channels])
+            W_fc_loc1 = weight_variable([self.height*self.width*self.num_channels, 20])
             b_fc_loc1 = bias_variable([20])
             W_fc_loc2 = weight_variable([20, 32])
             initial = self.initial.astype('float32')

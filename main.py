@@ -14,6 +14,10 @@ def configure():
     flags.DEFINE_float('learning_rate', 1e-3, 'learning rate')
     flags.DEFINE_float('keep_prob', 0.9, 'dropout probability')
     flags.DEFINE_boolean('use_gpu', False, 'use GPU or not')
+    #validing
+    flags.DEFINE_integer('valid_start_epoch',1001,'start step to test a model')
+    flags.DEFINE_string('valid_end_epoch',100001,'end step to test a model')
+    flags.DEFINE_string('valid_stride_of_epoch',1000,'stride to test a model')
     # data
     flags.DEFINE_string('data_dir', '/Users/Juhn/Desktop/Research Assistant/Research3/dtn_2d/', 'Name of data directory')
     flags.DEFINE_string('train_data', 'training.h5', 'Training data')
@@ -41,13 +45,45 @@ def configure():
         'deconv_name', 'deconv',
         'Use which deconv op: deconv, dilated_conv, co_dilated_conv')
     # Dense Transformer Networks  
-    flags.DEFINE_string('add_dtn',True,
+    flags.DEFINE_boolean('add_dtn', True,
         'add Dense Transformer Networks or not')
-    flags.DEFINE_string('dtn_location',3,'The Dense Transformer Networks location')
-    flags.DEFINE_string('control_points_ratio',8,
+    flags.DEFINE_integer('dtn_location', 3,'The Dense Transformer Networks location')
+    flags.DEFINE_string('control_points_ratio', 8,
         'Setup the ratio of control_points comparing with the Dense transformer networks input size')   
     flags.FLAGS.__dict__['__parsed'] = False
     return flags.FLAGS
+
+def train():
+    model = DenseTransformerNetwork(tf.Session(), configure())
+    model.train()
+
+def valid():
+    valid_loss = []
+    valid_accuracy = []
+    valid_m_iou = []
+    conf =  configure()
+    model = DenseTransformerNetwork(tf.Session(), conf)
+    for i in range(conf.valid_start_epoch,conf.valid_end_epoch,conf.valid_stride_of_epoch):
+        loss,acc,m_iou=model.test(i)
+        valid_loss.append(loss)
+        valid_accuracy.append(acc)
+        valid_m_iou.append(m_iou)
+        print('valid_loss',valid_loss)
+        print('valid_accuracy',valid_accuracy)
+        print('valid_m_iou',valid_m_iou)
+
+def predict(): 
+    predict_loss = []
+    predict_accuracy = []
+    predict_m_iou = []
+    model = DenseTransformerNetwork(tf.Session(), configure())
+    loss,acc,m_iou = model.predict()
+    predict_loss.append(loss)
+    predict_accuracy.append(acc)
+    predict_m_iou.append(m_iou)
+    print('predict_loss',predict_loss)
+    print('predict_accuracy',predict_accuracy)
+    print('predict_m_iou',predict_m_iou)
 
 def main(_):
     start = time.clock()
@@ -60,36 +96,13 @@ def main(_):
         print("Please input a action: train, test, or predict")
     # test
     elif args.action == 'test':
-        valid_loss = []
-        valid_accuracy = []
-        valid_m_iou = []
-        conf =  configure()
-        model = DenseTransformerNetwork(tf.Session(), conf)
-        for i in range(1001,100001,1000):
-            loss,acc,m_iou=model.test(i)
-            valid_loss.append(loss)
-            valid_accuracy.append(acc)
-            valid_m_iou.append(m_iou)
-            print('valid_loss',valid_loss)
-            print('valid_accuracy',valid_accuracy)
-            print('valid_m_iou',valid_m_iou)
+        valid()
     # predict
     elif args.action == 'predict':
-        predict_loss = []
-        predict_accuracy = []
-        predict_m_iou = []
-        model = DenseTransformerNetwork(tf.Session(), configure())
-        loss,acc,m_iou = model.predict()
-        predict_loss.append(loss)
-        predict_accuracy.append(acc)
-        predict_m_iou.append(m_iou)
-        print('predict_loss',predict_loss)
-        print('predict_accuracy',predict_accuracy)
-        print('predict_m_iou',predict_m_iou)
+        predict()
     # train
     else:
-        model = DenseTransformerNetwork(tf.Session(), configure())
-        getattr(model, args.action)()
+        train()
     end = time.clock()
     print("program total running time",(end-start)/60)
 

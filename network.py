@@ -13,11 +13,11 @@ class DenseTransformerNetwork(object):
         self.conf = conf
         self.conv_size = (3, 3)
         self.pool_size = (2, 2)
+        self.DTN_input_shape = [self.conf.batch, int(self.conf.height/(2**self.conf.dtn_location)),
+            int(self.conf.width/(2**self.conf.dtn_location)),
+            self.conf.start_channel_num*(2**self.conf.dtn_location)]
         if self.conf.add_dtn == True:
-            self.Column_controlP_number = int(self.conf.height / \
-                        ((2**self.conf.dtn_location)*self.conf.control_points_ratio))
-            self.Row_controlP_number = int(self.conf.width / \
-                        ((2**self.conf.dtn_location)*self.conf.control_points_ratio))
+            self.transform = DSN_transformer(self.DTN_input_shape,self.conf.control_points_ratio)
             self.insertdtn = self.conf.dtn_location
         else:
             self.insertdtn = -1
@@ -128,7 +128,6 @@ class DenseTransformerNetwork(object):
         conv1 = ops.conv2d(
             inputs, num_outputs, self.conv_size, name+'/conv1')
         if TPS == True:
-            self.transform = DSN_transformer(conv1,conv1,self.Column_controlP_number,self.Row_controlP_number)
             conv1= self.transform.Encoder(conv1,conv1)
         conv2 = ops.conv2d(
             conv1, num_outputs, self.conv_size, name+'/conv2',)
@@ -229,6 +228,20 @@ class DenseTransformerNetwork(object):
             accuracies.append(accuracy)
             m_ious.append(m_iou)
         return np.mean(losses),np.mean(accuracies),m_ious[-1]
+
+    def tests(self,sess,conf,start,end,step):
+        valid_loss = []
+        valid_accuracy = []
+        valid_m_iou = []
+        model = DenseTransformerNetwork(tf.Session(), conf)
+        for i in range(self.conf.test_start_epoch,self.conf.test_end_epoch,self.conf.test_stride_of_epoch):
+            loss,acc,m_iou=model.test(i)
+            valid_loss.append(loss)
+            valid_accuracy.append(acc)
+            valid_m_iou.append(m_iou)
+            print('valid_loss',valid_loss)
+            print('valid_accuracy',valid_accuracy)
+            print('valid_m_iou',valid_m_iou)
 
     def predict(self):
         print('---->predicting ', self.conf.test_epoch)
