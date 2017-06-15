@@ -30,7 +30,7 @@ class DSN_transformer(object):
             x = tf.reshape(x,[-1,self.height*self.width*self.num_channels])
             W_fc_loc1 = weight_variable([self.height*self.width*self.num_channels, 20])
             b_fc_loc1 = bias_variable([20])
-            W_fc_loc2 = weight_variable([20, 32])
+            W_fc_loc2 = weight_variable([20, self.Column_controlP_number*self.Row_controlP_number*2])
             initial = self.initial.astype('float32')
             initial = initial.flatten()
             b_fc_loc2 = tf.Variable(initial_value=initial, name='b_fc_loc2')
