@@ -7,8 +7,9 @@
 import tensorflow as tf
 import numpy as np
 from ops import *
+Debug = True
 
-class DSN_transformer(object):
+class DSN_Transformer(object):
     def __init__(self,input_shape,control_points_ratio):
         self.num_batch = input_shape[0]
         self.height = input_shape[1]
@@ -36,6 +37,14 @@ class DSN_transformer(object):
             b_fc_loc2 = tf.Variable(initial_value=initial, name='b_fc_loc2')
             h_fc_loc1 = tf.nn.tanh(tf.matmul(x, W_fc_loc1) + b_fc_loc1)
             h_fc_loc2 = tf.nn.tanh(tf.matmul(h_fc_loc1, W_fc_loc2) + b_fc_loc2)
+            if Debug == True:
+                x = np.linspace(-1.0,1.0,self.Column_controlP_number)
+                y = np.linspace(-1.0,1.0,self.Row_controlP_number)
+                x_s = tf.tile(x,[self.Row_controlP_number],'float64')
+                y_s = self._repeat(y,self.Column_controlP_number,'float64')
+                h_fc_loc2 = tf.concat([x_s,y_s],0)
+                h_fc_loc2 = tf.tile(h_fc_loc2,[self.num_batch])
+                h_fc_loc2 = tf.reshape(h_fc_loc2,[self.num_batch,-1])
             return h_fc_loc2
 
     def _makeT(self,cp):
@@ -177,10 +186,18 @@ class DSN_transformer(object):
             x1_f = tf.cast(x1, 'float32')
             y0_f = tf.cast(y0, 'float32')
             y1_f = tf.cast(y1, 'float32')
-            wa = tf.scatter_nd(idx_a, tf.expand_dims(((x1_f-x) * (y1_f-y)), 1), [self.num_batch*self.out_height*self.out_width, 1])
-            wb = tf.scatter_nd(idx_b, tf.expand_dims(((x1_f-x) * (y-y0_f)), 1), [self.num_batch*self.out_height*self.out_width, 1])
-            wc = tf.scatter_nd(idx_c, tf.expand_dims(((x-x0_f) * (y1_f-y)), 1), [self.num_batch*self.out_height*self.out_width, 1])
-            wd = tf.scatter_nd(idx_d, tf.expand_dims(((x-x0_f) * (y-y0_f)), 1), [self.num_batch*self.out_height*self.out_width, 1])
+            dx1 = tf.abs(x1_f-x)
+            dx1 = tf.cast(tf.less_equal(dx1,1),tf.float32)*dx1
+            dy1 = tf.abs(y1_f-y)
+            dy1 = tf.cast(tf.less_equal(dy1,1),tf.float32)*dy1
+            dx0 = tf.abs(x-x0_f)
+            dx0 = tf.cast(tf.less_equal(dx0,1),tf.float32)*dx0
+            dy0 = tf.abs(y-y0_f)
+            dy0 = tf.cast(tf.less_equal(dy0,1),tf.float32)*dy0
+            wa = tf.scatter_nd(idx_a, tf.expand_dims(dx1 * dy1, 1), [num_batch*out_height*out_width, 1])
+            wb = tf.scatter_nd(idx_b, tf.expand_dims(dx1 * dy0, 1), [num_batch*out_height*out_width, 1])
+            wc = tf.scatter_nd(idx_c, tf.expand_dims(dx0 * dy1, 1), [num_batch*out_height*out_width, 1])
+            wd = tf.scatter_nd(idx_d, tf.expand_dims(dx0 * dy0, 1), [num_batch*out_height*out_width, 1])
 
             value_all = tf.add_n([wa*Ia, wb*Ib, wc*Ic, wd*Id])
             weight_all = tf.clip_by_value(tf.add_n([wa, wb, wc, wd]),1e-5,1e+10)
@@ -256,5 +273,3 @@ class DSN_transformer(object):
         with tf.variable_scope(name):
             output = self._transform(self.T, U, U_org,Trans = 'Decoder')
             return output
-
-
