@@ -9,7 +9,7 @@ import numpy as np
 from ops import *
 Debug = False
 
-class DSN_Transformer(object):
+class DSN_transformer(object):
     def __init__(self,input_shape,control_points_ratio):
         self.num_batch = input_shape[0]
         self.height = input_shape[1]
