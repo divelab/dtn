@@ -194,10 +194,10 @@ class DSN_transformer(object):
             dx0 = tf.cast(tf.less_equal(dx0,1),tf.float32)*dx0
             dy0 = tf.abs(y-y0_f)
             dy0 = tf.cast(tf.less_equal(dy0,1),tf.float32)*dy0
-            wa = tf.scatter_nd(idx_a, tf.expand_dims(dx1 * dy1, 1), [num_batch*out_height*out_width, 1])
-            wb = tf.scatter_nd(idx_b, tf.expand_dims(dx1 * dy0, 1), [num_batch*out_height*out_width, 1])
-            wc = tf.scatter_nd(idx_c, tf.expand_dims(dx0 * dy1, 1), [num_batch*out_height*out_width, 1])
-            wd = tf.scatter_nd(idx_d, tf.expand_dims(dx0 * dy0, 1), [num_batch*out_height*out_width, 1])
+            wa = tf.scatter_nd(idx_a, tf.expand_dims(dx1 * dy1, 1), [self.num_batch*self.out_height*self.out_width, 1])
+            wb = tf.scatter_nd(idx_b, tf.expand_dims(dx1 * dy0, 1), [self.num_batch*self.out_height*self.out_width, 1])
+            wc = tf.scatter_nd(idx_c, tf.expand_dims(dx0 * dy1, 1), [self.num_batch*self.out_height*self.out_width, 1])
+            wd = tf.scatter_nd(idx_d, tf.expand_dims(dx0 * dy0, 1), [self.num_batch*self.out_height*self.out_width, 1])
 
             value_all = tf.add_n([wa*Ia, wb*Ib, wc*Ic, wd*Id])
             weight_all = tf.clip_by_value(tf.add_n([wa, wb, wc, wd]),1e-5,1e+10)
