@@ -7,7 +7,7 @@
 import tensorflow as tf
 import numpy as np
 from ops import *
-Debug = True
+Debug = False
 
 class DSN_Transformer(object):
     def __init__(self,input_shape,control_points_ratio):
